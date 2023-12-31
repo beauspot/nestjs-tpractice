@@ -17,8 +17,10 @@ export class AppController {
   constructor(private readonly incomeReportsService: AppService) {}
 
   @Get()
-  getAllReports(): IncomeReport[] | { message: string } {
-    return this.incomeReportsService.getAllReportsService();
+  getAllReports(@Param('type') type: string): IncomeReport[] | { message: string } {
+    const reportType =
+      type === 'income' ? ReportType.INCOME : ReportType.EXPENSES;
+    return this.incomeReportsService.getAllReportsService(reportType);
   }
 
   @Get(':id')

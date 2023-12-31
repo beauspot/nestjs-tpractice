@@ -32,10 +32,16 @@ export class AppService {
     }
   }
 
-  getAllReportsService(): IncomeReport[] | { message: string } {
-    if (this.incomes.length === 0)
-      return { message: 'There are no incomes to be reported.' };
-    else return this.incomes;
+  getAllReportsService(type: ReportType): IncomeReport[] | { message: string } {
+    const filteredReports = this.incomes.filter(
+      (income) => income.type === type,
+    );
+
+    if (filteredReports.length === 0) {
+      return { message: `There are no ${type} reports to be reported.` };
+    } else {
+      return filteredReports;
+    }
   }
 
   getIncomeReportByIdService(id: number): IncomeReport {
