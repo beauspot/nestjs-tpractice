@@ -11,13 +11,16 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { AppService, ReportType, IncomeReport } from './app.service';
+import { HttpCode } from '@nestjs/common';
 
-@Controller('report/:type')
+@Controller('report')
 export class AppController {
   constructor(private readonly incomeReportsService: AppService) {}
 
-  @Get()
-  getAllReports(@Param('type') type: string): IncomeReport[] | { message: string } {
+  @Get(':type')
+  getAllReports(
+    @Param('type') type: string,
+  ): IncomeReport[] | { message: string } {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSES;
     return this.incomeReportsService.getAllReportsService(reportType);
