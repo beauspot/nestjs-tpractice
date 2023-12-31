@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "type": "income",
+    "income": "Salary"
+  },
+  {
+    "id": 2,
+    "type": "income",
+    "income": "Octave"
+  },
+  {
+    "id": 2,
+    "type": "expense",
+    "expense": "Food"
+  }
+]
