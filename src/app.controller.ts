@@ -45,6 +45,7 @@ export class AppController {
     return this.appService.getReportByIDService(reportType, id);
   }
 
+  @HttpCode(201)
   @Post()
   createReport(
     @Body() { amount, source }: { amount: number; source: string },
