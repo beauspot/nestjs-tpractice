@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   Controller,
   Get,
@@ -9,52 +10,35 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  ParseEnumPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { AppService, ReportType, IncomeReport } from './app.service';
-import { HttpCode } from '@nestjs/common';
 
-@Controller('report')
+@Controller('report/:type')
 export class AppController {
-  constructor(private readonly incomeReportsService: AppService) {}
-
-  @Get(':type')
-  getAllReports(
-    @Param('type') type: string,
-  ): IncomeReport[] | { message: string } {
-    const reportType =
-      type === 'income' ? ReportType.INCOME : ReportType.EXPENSES;
-    return this.incomeReportsService.getAllReportsService(reportType);
+  @Get()
+  getAllReports() {
+    return [];
   }
 
   @Get(':id')
-  getReportById(@Param('id', ParseIntPipe) id: number): IncomeReport {
-    return this.incomeReportsService.getIncomeReportByIdService(id);
+  getReportById() {
+    return {};
   }
 
   @Post()
-  createIncomeReport(
-    @Param('type') type: ReportType,
-    @Body() newIncome: { income: string },
-  ): IncomeReport {
-    return this.incomeReportsService.createIncomeReportService({
-      type,
-      ...newIncome,
-    });
+  createReport() {
+    return 'Created';
   }
 
   @Put(':id')
-  editincomeReportbyId(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updatedIncome: { id: number; type: ReportType; income: string },
-  ): IncomeReport {
-    return this.incomeReportsService.editIncomeReportByIdService(
-      id,
-      updatedIncome,
-    );
+  editReportById() {
+    return 'edited';
   }
 
   @Delete(':id')
-  deleteIncomeReportById(@Param('id', ParseIntPipe) id: number): IncomeReport {
-    return this.incomeReportsService.deleteIncomeRequestService(id);
+  deleteReportByID() {
+    return 'Report Deleted';
   }
 }
