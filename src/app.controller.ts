@@ -9,37 +9,33 @@ import {
   Delete,
   Body,
   Param,
-  ParseIntPipe,
   ParseEnumPipe,
   HttpCode,
   HttpStatus,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 
 // Importing the services
 import { AppService } from './app.service';
-
-import * as fs from 'fs';
-import * as path from 'path';
-import { IncomeReport, ExpenseReport } from './interface/reports';
-import { data } from './db/data';
 import { ReportType } from './interface/data';
-import { v4 as uuid } from 'uuid';
-
-const dbFilePath = path.resolve(process.cwd(), 'data.json');
+import { CreateReportDTO, UpdateReportDTO } from './DTO/report.dto';
 
 @Controller('report/:type')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getAllReports(@Param('type') type: string) {
+  getAllReports(@Param('type', new ParseEnumPipe(ReportType)) type: string) {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
     return this.appService.getAllReportServices(reportType);
   }
 
   @Get(':id')
-  getReportById(@Param('type') type: string, @Param('id') id: string) {
+  getReportById(
+    @Param('type', new ParseEnumPipe(ReportType)) type: string,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
     return this.appService.getReportByIDService(reportType, id);
@@ -48,8 +44,8 @@ export class AppController {
   @HttpCode(201)
   @Post()
   createReport(
-    @Body() { amount, source }: { amount: number; source: string },
-    @Param('type') type: string,
+    @Body() { amount, source }: CreateReportDTO,
+    @Param('type', new ParseEnumPipe(ReportType)) type: string,
   ) {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
@@ -58,9 +54,9 @@ export class AppController {
 
   @Put(':id')
   updateReportById(
-    @Param('type') type: string,
-    @Param('id') id: string,
-    @Body() body: { amount: number; source: string },
+    @Param('type', new ParseEnumPipe(ReportType)) type: string,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() body: UpdateReportDTO,
   ) {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
@@ -69,7 +65,7 @@ export class AppController {
 
   @HttpCode(204)
   @Delete(':id')
-  deleteReportByID(@Param('id') id: string) {
+  deleteReportByID(@Param('id', ParseUUIDPipe) id: string) {
     return this.appService.deleteReportService(id);
   }
 }
