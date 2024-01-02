@@ -1,28 +1,32 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsNumber, IsIn, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateReportDTO {
-  @IsNotEmpty()
   @IsNumber()
-  id: number;
-
+  @IsPositive()
   @IsNotEmpty()
-  name: string;
+  amount: number;
 
+  @IsString()
   @IsNotEmpty()
-  @IsIn(['income', 'expense'])
-  type: 'income' | 'expense';
+  source: string;
 }
 
 export class UpdateReportDTO {
-  @IsOptional()
   @IsNumber()
-  id: number;
-
+  @IsPositive()
+  @IsNotEmpty()
   @IsOptional()
-  name: string;
+  amount: number;
 
+  @IsString()
+  @IsNotEmpty()
   @IsOptional()
-  @IsIn(['income', 'expense'])
-  type?: 'income' | 'expense';
+  source: string;
 }
