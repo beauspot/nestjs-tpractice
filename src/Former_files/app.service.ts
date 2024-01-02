@@ -26,7 +26,7 @@ export interface ExpenseReport {
   expense: string;
 }
 
-/*@Injectable()
+/* @Injectable()
 export class AppService {
   // Mock data array
 private reports: (IncomeReport | ExpenseReport)[] = [];
@@ -128,4 +128,5 @@ private reports: (IncomeReport | ExpenseReport)[] = [];
       'utf-8',
     );
   } 
-}*/
+}
+ */
