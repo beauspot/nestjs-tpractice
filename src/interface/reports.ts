@@ -16,3 +16,7 @@ export interface ReportData {
   amount: number;
   source: string;
 }
+export interface UpdateReportData {
+  amount?: number;
+  source?: string;
+}
