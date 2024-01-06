@@ -15,5 +15,6 @@ import { CustomInterceptor } from '../custom.interceptor';
       useClass: ClassSerializerInterceptor,
     },
   ],
+  exports: [ReportService],
 })
 export class ReportModule {}
